@@ -1,0 +1,28 @@
+.tabela_cabecalho {
+    background-color: #e8f0ff;
+    text-align: center;
+}
+
+.bloco_tabela {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.corpo_tabela:nth-child(2n) {
+    background-color: rgb(243, 243, 243);
+}
+
+.corpo_tabela > td {
+    padding: 0.8rem;
+    font-size: 1rem;
+    text-transform: uppercase;
+}
+
+.tabela_cabecalho > th {
+    padding: 0.8rem;
+    font-size: 1rem;
+    text-transform: uppercase;
+    font-weight: bold;
+}
