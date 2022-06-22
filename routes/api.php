@@ -16,3 +16,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get("/anuncios", [IndexController::class, "getAnuncios"]);
+Route::get("/anuncios/{id}", [IndexController::class, "getAnunciosId"]);
