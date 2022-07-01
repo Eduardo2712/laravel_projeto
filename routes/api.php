@@ -1,18 +1,12 @@
 <?php
 
-use App\Http\Controllers\IndexController;
+use App\Http\Controllers\AnunciosController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
-
-Route::get("/anuncios", [IndexController::class, "getAnuncios"]);
-Route::get("/anuncios/{id}", [IndexController::class, "getAnunciosId"]);
+Route::namespace("Api")->prefix("anuncios")->group(function () {
+    Route::get("/", [AnunciosController::class, "getAnuncios"]);
+    Route::get("/{id}", [AnunciosController::class, "getAnunciosId"]);
+    Route::post("/", [AnunciosController::class, "setAnuncios"]);
+    Route::put("/", [AnunciosController::class, "atualizarAnunciosId"]);
+    Route::delete("/", [AnunciosController::class, "excluirAnunciosId"]);
+});
