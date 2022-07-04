@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UsuariosCollection;
 use App\Http\Resources\UsuariosResource;
 use App\Models\Usuarios;
+use App\Repository\UsuariosRepository;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 
 class UsuariosController extends BaseController
 {
-    private $usuarios;
+    private $usuario;
 
-    public function __construct(Usuarios $usuarios)
+    public function __construct(Usuarios $usuario)
     {
-        $this->usuarios = $usuarios;
+        $this->usuario = $usuario;
     }
 
     /**
@@ -21,9 +23,17 @@ class UsuariosController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json(["mensagem" => __METHOD__]);
+        $usuarios = $this->usuario;
+        $usuariosRepository = new UsuariosRepository($usuarios);
+        if ($request->has("conditions")) {
+            $usuariosRepository->selectConditions($request->get("conditions"));
+        }
+        if ($request->has("fields")) {
+            $usuariosRepository->selectFilter($request->get("fields"));
+        }
+        return new UsuariosCollection($usuariosRepository->getResult()->paginate(5));
     }
 
     /**
