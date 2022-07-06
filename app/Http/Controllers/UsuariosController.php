@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UsuariosRequest;
 use App\Http\Resources\UsuariosCollection;
 use App\Http\Resources\UsuariosResource;
 use App\Models\Usuarios;
@@ -44,6 +45,19 @@ class UsuariosController extends BaseController
     public function create()
     {
         //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function save(UsuariosRequest $request)
+    {
+        $data = $request->all();
+        $usuario = $this->usuario->create($data);
+        return response()->json($usuario);
     }
 
     /**

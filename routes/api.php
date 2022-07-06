@@ -14,4 +14,9 @@ Route::prefix("anuncios")->group(function () {
     Route::delete("/", [AnunciosController::class, "excluirAnunciosId"]);
 });
 
-Route::resource("usuarios", UsuariosController::class);
+// Usuarios
+Route::prefix("usuarios")->group(function () {
+    Route::post("/", [UsuariosController::class, "save"]);
+});
+
+// Route::resource("usuarios", UsuariosController::class);
