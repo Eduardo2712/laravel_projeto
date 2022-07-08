@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AnunciosController;
+use App\Http\Controllers\RealStateController;
 use App\Http\Controllers\UsuariosController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,3 +21,9 @@ Route::prefix("usuarios")->group(function () {
 });
 
 // Route::resource("usuarios", UsuariosController::class);
+
+Route::prefix("v1")->group(function () {
+    Route::prefix("real-states")->name("real_states.")->group(function () {
+        Route::resource("/", RealStateController::class);
+    });
+});
