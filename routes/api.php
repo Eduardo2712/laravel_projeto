@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AnunciosController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\RealStateController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UsuariosController;
@@ -30,5 +31,10 @@ Route::prefix("v1")->group(function () {
 
     Route::name("users.")->group(function () {
         Route::resource("users", UserController::class);
+    });
+
+    Route::name("categories.")->group(function () {
+        Route::resource("categories", CategoryController::class);
+        Route::get("categories/{id}/real-state", [CategoryController::class, "realState"]);
     });
 });
