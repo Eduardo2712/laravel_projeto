@@ -14,7 +14,7 @@ class User extends Model
 
     public function real_state()
     {
-        return $this->hasManny(RealState::class);
+        return $this->hasMany(RealState::class);
     }
 
     public function profile()

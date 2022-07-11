@@ -43,7 +43,7 @@ class UserController extends BaseController
         Validator::make($data, [
             "phone" => "required",
             "modile_phone" => "required",
-        ]);
+        ])->validate();
         try {
             $data["password"] = bcrypt($data["password"]);
             $user = $this->user->create($data);
@@ -71,7 +71,8 @@ class UserController extends BaseController
     public function show($id)
     {
         try {
-            $user = $this->user->findOrFail($id);
+            $user = $this->user->with("profile")->findOrFail($id);
+            $user->profile->social_networks = unserialize($user->profile->social_networks);
             return response()->json([
                 "data" => $user
             ], 200);
@@ -96,9 +97,16 @@ class UserController extends BaseController
         } else {
             unset($data["password"]);
         }
+        Validator::make($data, [
+            "profile.phone" => "required",
+            "profile.modile_phone" => "required",
+        ])->validate();
         try {
+            $profile = $data["profile"];
+            $profile["social_networks"] = serialize($profile["social_networks"]);
             $user = $this->user->findOrFail($id);
             $user->update($data);
+            $user->profile()->update($profile);
             return response()->json([
                 "data" => [
                     "msg" => "Usuário atualizado com sucesso!"

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger("user_id");
             $table->text("about")->nullable(true);
-            $table->text("social_netwoks")->nullable(true);
+            $table->text("social_networks")->nullable(true);
             $table->string("phone");
             $table->string("mobile_phone");
             $table->timestamps();

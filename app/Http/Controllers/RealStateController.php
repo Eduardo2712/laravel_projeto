@@ -42,10 +42,22 @@ class RealStateController extends BaseController
     public function store(RealStateRequest $request)
     {
         $data = $request->all();
+        $images = $request->file("images");
         try {
             $realState = $this->realState->create($data);
             if (isset($data["categories"]) && count($data["categories"]) > 0) {
                 $realState->categories()->sync($data["categories"]);
+            }
+            if ($images) {
+                $imagesUpload = [];
+                foreach ($images as $image) {
+                    $path = $image->store("images", "public");
+                    $imagesUpload[] = [
+                        "photo" => $path,
+                        "is_thumb" => false,
+                    ];
+                }
+                $realState->photos()->createMany($imagesUpload);
             }
             return response()->json([
                 "data" => [
@@ -61,11 +73,23 @@ class RealStateController extends BaseController
     public function update($id, RealStateRequest $request)
     {
         $data = $request->all();
+        $images = $request->file("images");
         try {
             $realState = $this->realState->findOrFail($id);
             $realState->update($data);
             if (isset($data["categories"]) && count($data["categories"]) > 0) {
                 $realState->categories()->sync($data["categories"]);
+            }
+            if ($images) {
+                $imagesUpload = [];
+                foreach ($images as $image) {
+                    $path = $image->store("images", "public");
+                    $imagesUpload[] = [
+                        "photo" => $path,
+                        "is_thumb" => false,
+                    ];
+                }
+                $realState->photos()->createMany($imagesUpload);
             }
             return response()->json([
                 "data" => [
