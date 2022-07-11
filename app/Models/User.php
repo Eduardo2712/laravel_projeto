@@ -16,4 +16,9 @@ class User extends Model
     {
         return $this->hasManny(RealState::class);
     }
+
+    public function profile()
+    {
+        return $this->hasOne(UserProfile::class);
+    }
 }

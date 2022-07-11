@@ -6,6 +6,7 @@ use App\Api\ApiMessage;
 use App\Models\User;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends BaseController
 {
@@ -39,9 +40,17 @@ class UserController extends BaseController
             $message = new ApiMessage("É necessário informar uma senha");
             return response()->json($message->getMessage(), 401);
         }
+        Validator::make($data, [
+            "phone" => "required",
+            "modile_phone" => "required",
+        ]);
         try {
             $data["password"] = bcrypt($data["password"]);
             $user = $this->user->create($data);
+            $user->profile()->create([
+                "phone" => $data["phone"],
+                "mobile_phone" => $data["mobile_phone"],
+            ]);
             return response()->json([
                 "data" => [
                     "msg" => "Usuário cadastrado com sucesso!"
